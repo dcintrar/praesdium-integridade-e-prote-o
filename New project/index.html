@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRAESIDIUM – Integridade & Proteção</title>
+    <!-- FontAwesome para ícones jurídicos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* Cores Oficiais do Direito e da Justiça */
+            --law-ruby: #7a1c28; /* Vermelho Rubi do Direito */
+            --law-ruby-dark: #4d0f16;
+            --law-ruby-light: #9c2738;
+            --gold: #c5a059; /* Dourado da Balança e da Logo */
+            --gold-light: #ecdcb9;
+            --gold-dark: #987836;
+            --bg-light: #fbf9f6; /* Off-white / creme acadêmico */
+            --card-bg: #ffffff;
+            --text-dark: #2c2525;
+            --text-muted: #5c5454;
+            --danger: #c52224;
+            --success: #1b7e4b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+        }
+
+        body {
+            background-color: #231f20;
+            background-image: radial-gradient(#3a2e30 1px, transparent 1px);
+            background-size: 24px 24px;
+            color: var(--text-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 15px;
+        }
+
+        /* Container simulando um Smartphone moderno */
+        .app-container {
+            width: 100%;
+            max-width: 440px;
+            height: 860px;
+            max-height: 94vh;
+            background-color: var(--card-bg);
+            border-radius: 36px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 0 10px #1a1718, 0 0 0 12px #3d3536;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Topo Fixo com Vermelho Rubi e Ouro */
+        header {
+            background: linear-gradient(135deg, var(--law-ruby), var(--law-ruby-dark));
+            color: white;
+            padding: 18px 16px 14px;
+            text-align: center;
+            border-bottom: 3.5px solid var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 50;
+            box-shadow: 0 4px 15px rgba(83, 17, 24, 0.35);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .logo-badge {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--law-ruby-dark);
+            font-size: 20px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+            border: 1.5px solid white;
+            font-family: 'Times New Roman', Georgia, serif;
+        }
+
+        .header-text h1 {
+            font-size: 18px;
+            letter-spacing: 2px;
+            color: var(--gold-light);
+            font-weight: 800;
+            font-family: 'Times New Roman', Georgia, serif;
+            text-align: left;
+            line-height: 1.1;
+        }
+
+        .header-text p {
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            opacity: 0.9;
+            text-align: left;
+            margin-top: 2px;
+            color: #fcefe3;
+        }
+
+        .header-info-btn {
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid var(--gold);
+            color: var(--gold-light);
+            border-radius: 8px;
+            padding: 6px 10px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .header-info-btn:hover {
+            background: var(--gold);
+            color: var(--law-ruby-dark);
+        }
+
+        /* Barra de Navegação Rápida Superior */
+        .top-nav {
+            background: #ffffff;
+            border-bottom: 1px solid #e8e2d8;
+            display: flex;
+            justify-content: space-around;
+            padding: 4px 8px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            z-index: 40;
+        }
+
+        .nav-item {
+            padding: 8px 10px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            border-radius: 6px;
+        }
+
+        .nav-item.active {
+            color: var(--law-ruby);
+            border-bottom-color: var(--law-ruby);
+            background-color: rgba(122, 28, 40, 0.05);
+        }
+
+        /* Área do Conteúdo com Scroll Suave */
+        .app-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 18px 16px 85px;
+            background-color: var(--bg-light);
+            scroll-behavior: smooth;
+        }
+
+        .screen {
+            display: none;
+            animation: fadeIn 0.25s ease-in-out;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            color: var(--law-ruby);
+            font-size: 19px;
+            margin-bottom: 12px;
+            border-left: 4px solid var(--gold);
+            padding-left: 10px;
+            font-weight: 700;
+            font-family: 'Times New Roman', Georgia, serif;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        p {
+            font-size: 13.5px;
+            line-height: 1.55;
+            margin-bottom: 12px;
+            color: var(--text-dark);
+        }
+
+        .alert-box {
+            background-color: rgba(197, 34, 36, 0.08);
+            border: 1px solid var(--danger);
+            border-radius: 12px;
+            padding: 12px 14px;
+            color: #8c1c1e;
+            font-size: 12.5px;
+            margin-bottom: 14px;
+            line-height: 1.45;
+        }
+
+        .academic-badge {
+            background: #fff;
+            border: 1px solid #e0d7c7;
+            border-left: 3px solid var(--gold);
+            padding: 10px 12px;
+            border-radius: 10px;
+            font-size: 12px;
+            color: #4a3e3e;
+            margin-bottom: 14px;
+            line-height: 1.4;
+        }
+
+        /* Botões Estilizados Rubro e Ouro */
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 12px 14px;
+            background-color: var(--law-ruby);
+            color: white;
+            border: 1px solid var(--gold);
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            transition: all 0.2s;
+            text-decoration: none;
+            letter-spacing: 0.3px;
+            box-shadow: 0 2px 6px rgba(122, 28, 40, 0.15);
+        }
+
+        .btn:hover {
+            background-color: var(--gold);
+            color: var(--law-ruby-dark);
+            border-color: var(--law-ruby);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background-color: #ffffff;
+            color: var(--law-ruby);
+            border: 1.5px solid var(--law-ruby);
+            box-shadow: none;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--law-ruby);
+            color: white;
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: var(--law-ruby-dark);
+            font-weight: 700;
+            border: 1px solid white;
+        }
+
+        .btn-gold:hover {
+            background: var(--law-ruby);
+            color: white;
+        }
+
+        /* Grid de Opções */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .grid-item {
+            background-color: white;
+            border: 1.5px solid #e6ded2;
+            border-radius: 12px;
+            padding: 14px 10px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 12.5px;
+            transition: all 0.2s;
+            color: var(--law-ruby);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+
+        .grid-item i {
+            font-size: 20px;
+            color: var(--gold);
+            transition: transform 0.2s;
+        }
+
+        .grid-item:hover {
+            border-color: var(--gold);
+            background-color: rgba(197, 160, 89, 0.08);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(122, 28, 40, 0.08);
+        }
+
+        .grid-item:hover i {
+            transform: scale(1.15);
+            color: var(--law-ruby);
+        }
+
+        /* Cards Informativos */
+        .info-card {
+            background: #ffffff;
+            border: 1px solid #e8e1d5;
+            padding: 13px 14px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            font-size: 13px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+
+        .info-card h4 {
+            color: var(--law-ruby);
+            font-size: 14px;
+            margin-bottom: 4px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .info-card .law-badge {
+            display: inline-block;
+            font-size: 10px;
+            background: rgba(197, 160, 89, 0.15);
+            color: #72531a;
+            border: 1px solid var(--gold);
+            padding: 2px 7px;
+            border-radius: 6px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        /* Checklist */
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 10px;
+            background: #ffffff;
+            padding: 11px 12px;
+            border-radius: 10px;
+            border: 1px solid #e8e1d5;
+            border-left: 3.5px solid var(--gold);
+            font-size: 12.5px;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .checklist-item:hover {
+            background: #fdfbf7;
+        }
+
+        .checklist-item input {
+            margin-top: 2px;
+            transform: scale(1.15);
+            accent-color: var(--law-ruby);
+            cursor: pointer;
+        }
+
+        .checklist-item span {
+            line-height: 1.4;
+            color: #3d3535;
+        }
+
+        /* Barra de Acesso Rápido / Emergência Fixa */
+        .emergency-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #ffffff;
+            border-top: 1.5px solid #e8e2d8;
+            padding: 10px 14px;
+            display: flex;
+            gap: 8px;
+            z-index: 100;
+            box-shadow: 0 -3px 12px rgba(0,0,0,0.05);
+        }
+
+        .emergency-bar a {
+            flex: 1;
+            padding: 9px 4px;
+            font-size: 11px;
+            margin-bottom: 0;
+            border-radius: 8px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .btn-call-180 {
+            background-color: var(--law-ruby);
+            color: white;
+            border: 1px solid var(--gold);
+        }
+        .btn-call-180:hover { background-color: var(--law-ruby-dark); }
+
+        .btn-call-190 {
+            background-color: var(--danger);
+            color: white;
+            border: 1px solid #a11416;
+        }
+        .btn-call-190:hover { background-color: #a11416; }
+
+        .btn-call-129 {
+            background-color: #1a4f7c;
+            color: white;
+            border: 1px solid #133a5b;
+        }
+        .btn-call-129:hover { background-color: #133a5b; }
+
+        /* Modal Disclaimer */
+        .modal-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.65);
+            backdrop-filter: blur(2px);
+            z-index: 200;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-box {
+            background: white;
+            border-radius: 18px;
+            padding: 20px;
+            width: 100%;
+            max-height: 85%;
+            overflow-y: auto;
+            border: 2px solid var(--gold);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            font-size: 12.5px;
+            line-height: 1.5;
+        }
+
+        .modal-box h3 {
+            color: var(--law-ruby);
+            font-family: 'Times New Roman', Georgia, serif;
+            font-size: 16px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 6px;
+        }
+
+        .badge-vicaria {
+            background: #fdf2e9;
+            color: #b94a00;
+            border: 1px solid #e07a38;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-left: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <!-- Topo Rubro e Ouro da Justiça -->
+    <header>
+        <div class="header-left" onclick="navigateTo('tela1')">
+            <div class="logo-badge">P</div>
+            <div class="header-text">
+                <h1>PRAESIDIUM</h1>
+                <p>INTEGRIDADE &amp; PROTEÇÃO</p>
+            </div>
+        </div>
+        <button class="header-info-btn" onclick="toggleModal(true)">
+            <i class="fa-solid fa-scale-balanced"></i> Aviso
+        </button>
+    </header>
+
+    <!-- Sub-Navbar de Navegação Rápida -->
+    <nav class="top-nav">
+        <div class="nav-item active" id="nav-tela1" onclick="navigateTo('tela1')">
+            <i class="fa-solid fa-house"></i> Início
+        </div>
+        <div class="nav-item" id="nav-tela2" onclick="navigateTo('tela2')">
+            <i class="fa-solid fa-gavel"></i> Violências
+        </div>
+        <div class="nav-item" id="nav-tela4" onclick="navigateTo('tela4')">
+            <i class="fa-solid fa-list-check"></i> Checklist
+        </div>
+        <div class="nav-item" id="nav-tela7" onclick="navigateTo('tela7')">
+            <i class="fa-solid fa-shield-halved"></i> Apoio
+        </div>
+    </nav>
+
+    <!-- Área de Conteúdo -->
+    <div class="app-content" id="appContent">
+
+        <!-- TELA 1: Apresentação & Início -->
+        <div id="tela1" class="screen active">
+            <h2>Bem-vindo ao Praesdium</h2>
+            
+            <div class="alert-box">
+                <strong><i class="fa-solid fa-triangle-exclamation"></i> AVISO JURÍDICO E DE SEGURANÇA:</strong><br>
+                Esta é uma ferramenta digital educativa. Em situação de risco imediato, acione os botões de discagem rápida na base.
+            </div>
+
+            <div class="academic-badge">
+                <strong>🏛️ Projeto Acadêmico:</strong><br>
+                Desenvolvido para a disciplina <em>Experiência Aplicada em Obrigações, Responsabilidade e Danos</em> da <strong>Faculdade Serra Dourada – Lorena</strong>, sob orientação da <strong>Profa. Melissa Dias</strong> (2026).
+            </div>
+
+            <p>O <strong>PRAESIDIUM</strong> é um sistema educativo de orientação jurídica, prevenção de vulnerabilidades domésticas e reparação de danos nas relações familiares.</p>
+
+            <button class="btn" onclick="navigateTo('tela2')">
+                <i class="fa-solid fa-book-open"></i> Tipos de Violência (Lei Maria da Penha)
+            </button>
+            <button class="btn btn-secondary" onclick="navigateTo('tela4')">
+                <i class="fa-solid fa-clipboard-check"></i> Termômetro de Risco &amp; Checklist
+            </button>
+            <button class="btn btn-secondary" onclick="navigateTo('tela5')">
+                <i class="fa-solid fa-shield-halved"></i> Medidas Protetivas de Urgência
+            </button>
+            <button class="btn btn-secondary" onclick="navigateTo('tela6')">
+                <i class="fa-solid fa-scale-unbalanced-flip"></i> Responsabilidade Civil e Indenização
+            </button>
+            <button class="btn btn-secondary" onclick="navigateTo('tela9')">
+                <i class="fa-solid fa-landmark"></i> Compêndio de Legislação Atualizada
+            </button>
+        </div>
+
+        <!-- TELA 2: Tipos de Violência -->
+        <div id="tela2" class="screen">
+            <h2>Tipos de Violência</h2>
+            <p>Selecione uma das vertentes protegidas pela Lei Maria da Penha (com a inclusão normativa e doutrinária consolidada até 2026):</p>
+            
+            <div class="menu-grid">
+                <div class="grid-item" onclick="loadViolencia('fisica')">
+                    <i class="fa-solid fa-hand-fist"></i>
+                    <span>Física</span>
+                </div>
+                <div class="grid-item" onclick="loadViolencia('psicologica')">
+                    <i class="fa-solid fa-brain"></i>
+                    <span>Psicológica</span>
+                </div>
+                <div class="grid-item" onclick="loadViolencia('sexual')">
+                    <i class="fa-solid fa-venus"></i>
+                    <span>Sexual</span>
+                </div>
+                <div class="grid-item" onclick="loadViolencia('patrimonial')">
+                    <i class="fa-solid fa-coins"></i>
+                    <span>Patrimonial</span>
+                </div>
+                <div class="grid-item" onclick="loadViolencia('moral')">
+                    <i class="fa-solid fa-comment-slash"></i>
+                    <span>Moral</span>
+                </div>
+                <div class="grid-item" onclick="loadViolencia('vicaria')">
+                    <i class="fa-solid fa-child-reaching"></i>
+                    <span>Vicária <span class="badge-vicaria">2026</span></span>
+                </div>
+            </div>
+            
+            <button class="btn btn-secondary" onclick="navigateTo('tela1')">
+                <i class="fa-solid fa-arrow-left"></i> Voltar ao Menu
+            </button>
+        </div>
+
+        <!-- TELA 3: Detalhes Jurídicos da Violência -->
+        <div id="tela3" class="screen">
+            <h2 id="violenciaTitle">Detalhes Jurídicos</h2>
+            <div class="info-card">
+                <span class="law-badge" id="violenciaLaw">Base Legal</span>
+                <p id="violenciaDesc" style="margin-bottom: 8px;"></p>
+                <div style="border-top: 1px dashed #e0d7c7; padding-top: 8px; margin-top: 6px;">
+                    <strong style="color: var(--law-ruby); font-size: 12px;">⚖️ Consequência Civil &amp; Dano Moral:</strong>
+                    <p id="violenciaDano" style="font-size: 12px; margin-top: 4px; margin-bottom: 0; color: #4a3e3e;"></p>
+                </div>
+            </div>
+
+            <div class="info-card" style="background-color: #fdfaf5;">
+                <h4 style="font-size: 12.5px;"><i class="fa-solid fa-list-check text-gold"></i> Exemplos Práticos:</h4>
+                <ul id="violenciaExemplos" style="padding-left: 18px; font-size: 12px; color: #555; line-height: 1.5;"></ul>
+            </div>
+
+            <button class="btn" onclick="navigateTo('tela4')">
+                <i class="fa-solid fa-stethoscope"></i> Avaliar Sinais no Checklist
+            </button>
+            <button class="btn btn-secondary" onclick="navigateTo('tela2')">
+                <i class="fa-solid fa-arrow-left"></i> Outras Violências
+            </button>
+        </div>
+
+        <!-- TELA 4: Checklist e Termômetro de Risco -->
+        <div id="tela4" class="screen">
+            <h2>Termômetro de Risco</h2>
+            <p style="font-size: 12.5px;">Marque os comportamentos observados na relação para identificar o grau de risco e receber orientações preventivas imediatas:</p>
+
+            <div id="checklistContainer">
+                <label class="checklist-item">
+                    <input type="checkbox" class="chk-risk" value="1">
+                    <span>Ciúmes excessivo, controle de roupas, saídas ou amizades.</span>
+                </label>
+                <label class="checklist-item">
+                    <input type="checkbox" class="chk-risk" value="1">
+                    <span>Insultos, humilhações públicas ou desvalorização constante da sua capacidade.</span>
+                </label>
+                <label class="checklist-item">
+                    <input type="checkbox" class="chk-risk" value="2">
+                    <span>Quebra de objetos pessoais, socos na parede ou portas durante discussões.</span>
+                </label>
+                <label class="checklist-item">
+                    <input type="checkbox" class="chk-risk" value="2">
+                    <span>Controle abusivo do seu dinheiro, retenção de cartões ou documentos.</span>
+                </label>
+                <label class="checklist-item">
+                    <input type="checkbox" class="chk-risk" value="3">
+                    <span>Empurrões, puxões de cabelo, tapas ou qualquer agressão física.</span>
+                </label>
+                <label class="checklist-item">
+                    <input type="checkbox" class="chk-risk" value="3">
+                    <span>Ameaças com armas, facas, veneno ou ameaça direta de morte contra você ou filhos.</span>
+                </label>
+            </div>
+
+            <div id="riskResult" style="display: none; margin-top: 14px; margin-bottom: 14px;">
+                <div id="riskBox" class="info-card" style="border-left: 4px solid var(--danger);">
+                    <h4 id="riskTitle">Nível de Risco</h4>
+                    <p id="riskDesc" style="font-size: 12.5px; margin-bottom: 6px;"></p>
+                    <div id="riskAction" style="font-size: 12px; font-weight: 600; color: var(--law-ruby);"></div>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 8px; margin-top: 10px;">
+                <button class="btn btn-secondary" style="flex: 1;" onclick="resetChecklist()">Limpar</button>
+                <button class="btn" style="flex: 2;" onclick="evaluateRisk()">
+                    <i class="fa-solid fa-chart-pie"></i> Calcular Risco
+                </button>
+            </div>
+
+            <button class="btn btn-gold" onclick="navigateTo('tela5')" style="margin-top: 6px;">
+                <i class="fa-solid fa-shield-halved"></i> Como Pedir Medida Protetiva
+            </button>
+        </div>
+
+        <!-- TELA 5: Medidas Protetivas de Urgência -->
+        <div id="tela5" class="screen">
+            <h2>Medidas Protetivas (MPUs)</h2>
+            <p>As Medidas Protetivas de Urgência são ordens judiciais imediatas para garantir a integridade física, psicológica e patrimonial da vítima.</p>
+
+            <div class="info-card">
+                <h4><i class="fa-solid fa-clock text-gold"></i> Prazos e Concessão Rápida</h4>
+                <p style="font-size: 12.5px; margin-bottom: 0;">
+                    Após o pedido na Delegacia ou Defensoria, o juiz tem até <strong>48 horas</strong> para decidir. Com a <strong>Lei 14.550/2023</strong>, as medidas devem ser concedidas sumariamente, independentemente de boletim de ocorrência ou processo penal prévio.
+                </p>
+            </div>
+
+            <div class="info-card">
+                <h4><i class="fa-solid fa-ban text-gold"></i> Principais Tipos de Medidas:</h4>
+                <ul style="padding-left: 18px; font-size: 12px; color: #444; line-height: 1.5;">
+                    <li>Afastamento imediato do agressor do lar/residência.</li>
+                    <li>Proibição de aproximação e contato com a vítima e familiares.</li>
+                    <li>Restrição ou suspensão de visitas a dependentes menores.</li>
+                    <li>Suspensão da posse ou porte de armas de fogo.</li>
+                    <li>Prestação de alimentos provisionais e proteção de bens.</li>
+                </ul>
+            </div>
+
+            <button class="btn" onclick="navigateTo('tela7')">
+                <i class="fa-solid fa-map-location-dot"></i> Onde Solicitar as MPUs
+            </button>
+            <button class="btn btn-secondary" onclick="navigateTo('tela8')">
+                <i class="fa-solid fa-file-shield"></i> Plano de Segurança e Provas
+            </button>
+        </div>
+
+        <!-- TELA 6: Responsabilidade Civil e Reparação de Danos -->
+        <div id="tela6" class="screen">
+            <h2>Responsabilidade Civil &amp; Danos</h2>
+            <div class="academic-badge">
+                <strong>Fundamento:</strong> Arts. 186 e 927 do Código Civil c/c Tema Repetitivo 983 do STJ.
+            </div>
+
+            <div class="info-card">
+                <h4><i class="fa-solid fa-gavel text-gold"></i> Dano Moral Presumido (In Re Ipsa)</h4>
+                <p style="font-size: 12.5px;">
+                    O Superior Tribunal de Justiça (STJ) fixou a tese de que, nos casos de violência doméstica e familiar contra a mulher, o <strong>dano moral é presumido</strong>. Não é necessário provar sofrimento psicológico ou prejuízo clínico no processo civil.
+                </p>
+            </div>
+
+            <div class="info-card">
+                <h4><i class="fa-solid fa-hand-holding-dollar text-gold"></i> Reparações Exigíveis:</h4>
+                <ul style="padding-left: 18px; font-size: 12px; color: #444; line-height: 1.5;">
+                    <li><strong>Dano Moral:</strong> Compensação financeira pela violação à dignidade.</li>
+                    <li><strong>Danos Materiais:</strong> Reembolso de despesas médicas, medicamentos e bens avariados.</li>
+                    <li><strong>Lucros Cessantes:</strong> Valores que a vítima deixou de receber devido aos fatos.</li>
+                    <li><strong>Dano Estético:</strong> Reparação por cicatrizes ou marcas corporais permanentes.</li>
+                </ul>
+            </div>
+
+            <button class="btn btn-secondary" onclick="navigateTo('tela1')">
+                <i class="fa-solid fa-arrow-left"></i> Voltar ao Menu Principal
+            </button>
+        </div>
+
+        <!-- TELA 7: Rede de Apoio e Canais de Atendimento -->
+        <div id="tela7" class="screen">
+            <h2>Rede de Apoio &amp; Proteção</h2>
+            <p>Locais onde você pode buscar ajuda gratuita, acolhimento psicossocial e assistência jurídica:</p>
+
+            <div class="info-card" style="border-left: 3.5px solid var(--law-ruby);">
+                <h4><i class="fa-solid fa-building-shield"></i> DEAM &amp; Sala Lilás</h4>
+                <p style="font-size: 12px; margin-bottom: 2px;">Delegacia Especializada de Atendimento à Mulher. Registro de ocorrência e pedido de medidas protetivas de urgência.</p>
+                <span style="font-size: 11px; font-weight: bold; color: var(--law-ruby);">Procure a delegacia da sua cidade ou Delegacia Eletrônica.</span>
+            </div>
+
+            <div class="info-card" style="border-left: 3.5px solid #1a4f7c;">
+                <h4><i class="fa-solid fa-scale-balanced"></i> Defensoria Pública (NUDEM)</h4>
+                <p style="font-size: 12px; margin-bottom: 2px;">Núcleo Especializado de Promoção e Defesa dos Direitos das Mulheres. Assistência jurídica gratuita integral sem precisar contratar advogado.</p>
+                <span style="font-size: 11px; font-weight: bold; color: #1a4f7c;">Disque 129 (Gratuito)</span>
+            </div>
+
+            <div class="info-card" style="border-left: 3.5px solid #1b7e4b;">
+                <h4><i class="fa-solid fa-people-roof"></i> CREAS / CRAS &amp; CRAM</h4>
+                <p style="font-size: 12px; margin-bottom: 2px;">Centro de Referência Especializado de Assistência Social e Casa da Mulher. Atendimento psicológico e assistência social.</p>
+                <span style="font-size: 11px; font-weight: bold; color: #1b7e4b;">Localize no Centro de Referência do seu município.</span>
+            </div>
+
+            <button class="btn btn-secondary" onclick="navigateTo('tela1')">
+                <i class="fa-solid fa-arrow-left"></i> Voltar ao Início
+            </button>
+        </div>
+
+        <!-- TELA 8: Plano de Segurança e Coleta de Provas -->
+        <div id="tela8" class="screen">
+            <h2>Plano de Segurança &amp; Provas</h2>
+            <p>Orientações práticas para proteger sua integridade e resguardar elementos probatórios para a Justiça:</p>
+
+            <div class="info-card">
+                <h4><i class="fa-solid fa-camera text-gold"></i> Como Guardar Provas com Segurança:</h4>
+                <ul style="padding-left: 18px; font-size: 12px; color: #444; line-height: 1.5;">
+                    <li>Tire capturas de tela (prints) de conversas com data e número visíveis.</li>
+                    <li>Encaminhe fotos e áudios para um e-mail secreto ou nuvem com senha desconhecida pelo parceiro.</li>
+                    <li>Guarde receitas médicas, relatórios de pronto-socorro e notas fiscais de gastos com remédios.</li>
+                    <li>Anote nome e contato de testemunhas (vizinhos, porteiros, parentes).</li>
+                </ul>
+            </div>
+
+            <div class="info-card">
+                <h4><i class="fa-solid fa-suitcase text-gold"></i> Bolsa de Emergência:</h4>
+                <p style="font-size: 12px; margin-bottom: 0;">
+                    Mantenha com uma pessoa de extrema confiança: cópia de documentos (RG, CPF, certidão de nascimento dos filhos), chave reserva da casa, cartão bancário próprio e medicamentos de uso contínuo.
+                </p>
+            </div>
+
+            <button class="btn btn-secondary" onclick="navigateTo('tela1')">
+                <i class="fa-solid fa-arrow-left"></i> Voltar ao Menu
+            </button>
+        </div>
+
+        <!-- TELA 9: Compêndio de Legislação Atualizada -->
+        <div id="tela9" class="screen">
+            <h2>Legislação Aplicável</h2>
+            
+            <div class="info-card">
+                <span class="law-badge">Lei 11.340/2006</span>
+                <h4>Lei Maria da Penha</h4>
+                <p style="font-size: 12px;">Cria mecanismos para coibir e prevenir a violência doméstica e familiar contra a mulher.</p>
+            </div>
+
+            <div class="info-card">
+                <span class="law-badge">Lei 14.550/2023</span>
+                <h4>Eficácia Imediata das Medidas Protetivas</h4>
+                <p style="font-size: 12px;">Assegura concessão de medidas protetivas independentemente de tipificação penal ou BO prévio.</p>
+            </div>
+
+            <div class="info-card">
+                <span class="law-badge">Código Civil - Arts. 186 e 927</span>
+                <h4>Responsabilidade Civil Subjetiva e Objetiva</h4>
+                <p style="font-size: 12px;">Obrigação de reparar o dano causado por ação, omissão ou violação de direitos fundamentais.</p>
+            </div>
+
+            <div class="info-card">
+                <span class="law-badge">Súmula 588 &amp; Tema 983 STJ</span>
+                <h4>Dano Moral Presumido</h4>
+                <p style="font-size: 12px;">Fixação de indenização mínima civil por dano moral em favor da vítima de violência doméstica.</p>
+            </div>
+
+            <button class="btn btn-secondary" onclick="navigateTo('tela1')">
+                <i class="fa-solid fa-arrow-left"></i> Voltar ao Menu
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Barra de Acesso Rápido / Emergência Fixa -->
+    <div class="emergency-bar">
+        <a href="tel:180" class="btn btn-call-180">
+            <i class="fa-solid fa-phone"></i> Ligue 180
+        </a>
+        <a href="tel:190" class="btn btn-call-190">
+            <i class="fa-solid fa-shield"></i> Polícia 190
+        </a>
+        <a href="tel:129" class="btn btn-call-129">
+            <i class="fa-solid fa-scale-balanced"></i> Defensoria 129
+        </a>
+    </div>
+
+    <!-- Modal de Aviso Ético / Disclaimer OAB -->
+    <div id="disclaimerModal" class="modal-overlay" onclick="if(event.target===this) toggleModal(false)">
+        <div class="modal-box">
+            <h3><i class="fa-solid fa-shield-halved"></i> Aviso Ético e Limites do Aplicativo</h3>
+            <p><strong>1. Finalidade Acadêmica e Educativa:</strong> Este protótipo é um projeto de extensão universitária da Faculdade Serra Dourada (Lorena - SP), concebido para fins de conscientização e pedagogia jurídica.</p>
+            <p><strong>2. Não Constitui Consulta Jurídica:</strong> O aplicativo <u>não presta consultoria</u>, não analisa casos concretos individualizados e não substitui o atendimento da Defensoria Pública, de advogados ou de autoridades policiais.</p>
+            <p><strong>3. Conformidade com a OAB:</strong> A ferramenta respeita o Código de Ética e Disciplina da OAB, não realizando captação de clientela ou oferta de serviços advocatícios.</p>
+            <p><strong>4. Emergências Reais:</strong> Em perigo iminente, disque imediatamente 190 (Polícia Militar) ou 180 (Central da Mulher).</p>
+            <button class="btn" style="margin-top: 12px; margin-bottom: 0;" onclick="toggleModal(false)">Compreendi</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Dicionário Jurídico Completo dos Tipos de Violência
+    const dadosViolencia = {
+        fisica: {
+            title: "Violência Física",
+            law: "Art. 7º, I da Lei 11.340/06 & Art. 129 do Código Penal",
+            desc: "Entendida como qualquer conduta que ofenda a integridade ou a saúde corporal da mulher. Abrange desde empurrões, tapas e socos até agressões graves e tentativas de feminicídio.",
+            dano: "Enseja dever de indenização por danos materiais (gastos hospitalares, cirurgias e remédios), lucros cessantes, dano estético por lesões e dano moral in re ipsa.",
+            exemplos: [
+                "Bater, empurrar, sacudir, chutar ou arremessar objetos.",
+                "Queimaduras, estrangulamento ou cortes.",
+                "Uso de armas ou objetos cortantes para causar medo ou dor."
+            ]
+        },
+        psicologica: {
+            title: "Violência Psicológica",
+            law: "Art. 7º, II da Lei 11.340/06 & Art. 147-B do Código Penal",
+            desc: "Conduta que cause dano emocional, diminuição da autoestima, prejudique o pleno desenvolvimento pessoal ou vise controlar ações, comportamentos, crenças e decisões mediante ameaça, constrangimento, humilhação, manipulação, isolamento ou chantagem.",
+            dano: "Configura ato ilícito penal e civil autônomo, gerando compensação por danos morais e custeio integral de tratamento psicoterapêutico necessário à recuperação da vítima.",
+            exemplos: [
+                "Ameaças veladas ou explícitas de abandono, morte ou ruína.",
+                "Controle obsessivo de redes sociais, vestimentas e amizades.",
+                "Gaslighting (manipulação para fazer a mulher duvidar da própria sanidade)."
+            ]
+        },
+        sexual: {
+            title: "Violência Sexual",
+            law: "Art. 7º, III da Lei 11.340/06 & Arts. 213 e 217-A do CP",
+            desc: "Qualquer conduta que a presencie, a mantenha ou a participe de relação sexual não desejada mediante intimidação, ameaça, coação ou uso da força. Abrange também a proibição do uso de métodos contraceptivos ou a imposição de gravidez/aborto.",
+            dano: "Violação máxima à liberdade individual e dignidade sexual, gerando indenizações de alta gravidade por danos morais, suporte ginecológico e profilaxia emergencial.",
+            exemplos: [
+                "Relações sexuais forçadas dentro do casamento ou namoro.",
+                "Obrigar a mulher a praticar atos sexuais que ela recusa.",
+                "Impedir o uso de preservativo ou pílula anticoncepcional."
+            ]
+        },
+        patrimonial: {
+            title: "Violência Patrimonial",
+            law: "Art. 7º, IV da Lei 11.340/06 & Art. 168 do CP",
+            desc: "Conduta que configure retenção, subtração, destruição parcial ou total de seus objetos, instrumentos de trabalho, documentos pessoais, bens, valores e direitos ou recursos econômicos, incluindo os destinados a satisfazer suas necessidades.",
+            dano: "Obrigação de restituição dos bens ou seu equivalente em dinheiro, com juros e correção monetária, cumulada com indenização pelo impedimento do exercício de profissão.",
+            exemplos: [
+                "Destruir celular, computador ou ferramentas de trabalho.",
+                "Retenção de documentos (RG, carteira de trabalho, cartões de banco).",
+                "Desviar valores da conta bancária ou vender bens do casal sem anuência."
+            ]
+        },
+        moral: {
+            title: "Violência Moral",
+            law: "Art. 7º, V da Lei 11.340/06 & Arts. 138, 139 e 140 do CP",
+            desc: "Qualquer conduta que configure calúnia (imputar falsamente crime), difamação (atribuir fato ofensivo à reputação) ou injúria (ofender a dignidade ou o decoro pessoal).",
+            dano: "Direito de resposta, retratação pública e indenização pecuniária pelo abalo à honra subjetiva e objetiva da mulher perante a comunidade e ambiente de trabalho.",
+            exemplos: [
+                "Acusar a mulher de traição publicamente ou nas redes sociais.",
+                "Xingamentos desqualificadores da conduta materna ou profissional.",
+                "Espalhar boatos falsos para denegrir a imagem da mulher."
+            ]
+        },
+        vicaria: {
+            title: "Violência Vicária (2026)",
+            law: "Conceito Doutrinário Consolidado & Lei 14.344/22 (Lei Henry Borel)",
+            desc: "Forma de violência na qual o agressor utiliza os filhos, crianças, idosos ou animais de estimação como instrumentos para infligir sofrimento psíquico devastador à mulher. É o dano exercido 'por interposta pessoa'.",
+            dano: "Pode ensejar perda da guarda, suspensão do poder familiar, medidas cautelares de proteção à criança e reparação cumulada por dano moral reflexo/por ricochete.",
+            exemplos: [
+                "Manipulação e alienação parental dos filhos contra a mãe.",
+                "Ameaçar sumir com os filhos ou machucá-los para torturar a genitora.",
+                "Maus-tratos a animais de estimação da vítima como retaliação."
+            ]
+        }
+    };
+
+    // Navegação entre Telas
+    function navigateTo(telaId) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        const targetScreen = document.getElementById(telaId);
+        if (targetScreen) {
+            targetScreen.classList.add('active');
+        }
+
+        // Atualiza Navbar Topo
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        const navEl = document.getElementById('nav-' + telaId);
+        if (navEl) {
+            navEl.classList.add('active');
+        }
+
+        document.getElementById('appContent').scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Carregar Detalhes de Violência
+    function loadViolencia(tipo) {
+        const dados = dadosViolencia[tipo];
+        if (!dados) return;
+
+        document.getElementById('violenciaTitle').innerText = dados.title;
+        document.getElementById('violenciaLaw').innerText = dados.law;
+        document.getElementById('violenciaDesc').innerHTML = dados.desc;
+        document.getElementById('violenciaDano').innerHTML = dados.dano;
+
+        const ulEx = document.getElementById('violenciaExemplos');
+        ulEx.innerHTML = dados.exemplos.map(ex => `<li>${ex}</li>`).join('');
+
+        navigateTo('tela3');
+    }
+
+    // Termômetro de Risco & Checklist
+    function evaluateRisk() {
+        const checkboxes = document.querySelectorAll('.chk-risk:checked');
+        let totalScore = 0;
+        checkboxes.forEach(chk => {
+            totalScore += parseInt(chk.value, 10);
+        });
+
+        const riskBox = document.getElementById('riskResult');
+        const riskTitle = document.getElementById('riskTitle');
+        const riskDesc = document.getElementById('riskDesc');
+        const riskAction = document.getElementById('riskAction');
+        const riskCard = document.getElementById('riskBox');
+
+        if (checkboxes.length === 0) {
+            riskTitle.innerText = "Nenhum sinal marcado";
+            riskDesc.innerText = "Selecione os comportamentos vivenciados para calcular o índice de risco preventivo.";
+            riskAction.innerText = "A prevenção é o melhor caminho. Conheça seus direitos.";
+            riskCard.style.borderLeftColor = "var(--gold)";
+        } else if (totalScore <= 2) {
+            riskTitle.innerHTML = "🟡 Risco Inicial / Alerta de Controle";
+            riskDesc.innerText = "Identificados comportamentos de controle abusivo e desvalorização. O ciclo da violência costuma iniciar sutilmente nestas atitudes.";
+            riskAction.innerHTML = "👉 Orientação: Busque apoio psicológico no CREAS ou orientação preventiva na Defensoria Pública (129).";
+            riskCard.style.borderLeftColor = "#c5a059";
+        } else if (totalScore <= 5) {
+            riskTitle.innerHTML = "🟠 Risco Moderado / Fases Críticas";
+            riskDesc.innerText = "Presença de intimidação patrimonial, danos a objetos e agressões verbais graves. Há forte probabilidade de escalada física.";
+            riskAction.innerHTML = "👉 Orientação: Elabore seu Plano de Segurança, guarde provas e consulte sobre Medidas Protetivas de Urgência.";
+            riskCard.style.borderLeftColor = "#d97706";
+        } else {
+            riskTitle.innerHTML = "🔴 Risco Severo / Iminência de Lesão Grave";
+            riskDesc.innerText = "Foram identificadas agressões físicas diretas ou ameaças severas de morte. Sua integridade e a de seus filhos está em risco grave.";
+            riskAction.innerHTML = "🚨 Ação Imediata: Acione o 190 ou dirija-se à DEAM mais próxima para Medida Protetiva Imediata e acolhimento em Casa Abrigo.";
+            riskCard.style.borderLeftColor = "var(--danger)";
+        }
+
+        riskBox.style.display = 'block';
+        riskBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function resetChecklist() {
+        document.querySelectorAll('.chk-risk').forEach(chk => chk.checked = false);
+        document.getElementById('riskResult').style.display = 'none';
+    }
+
+    // Modal Disclaimer
+    function toggleModal(show) {
+        const modal = document.getElementById('disclaimerModal');
+        if (show) {
+            modal.classList.add('active');
+        } else {
+            modal.classList.remove('active');
+        }
+    }
+</script>
+
+</body>
+</html>
+
